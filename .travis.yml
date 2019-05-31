@@ -2,7 +2,7 @@
 # @link https://travis-ci.org/
 
 # Use new container based environment
-sudo: false
+sudo: required
 
 dist: trusty
 
@@ -41,7 +41,7 @@ matrix:
 
 before_script:
   # Install .mo compilation dependencies
-  - apt-get install gettext
+  - sudo apt-get install gettext
   # Speed up build time by disabling Xdebug when its not needed.
   - phpenv config-rm xdebug.ini || echo 'No xdebug config.'
   # Install CodeSniffer and external standards for the CS checks.
