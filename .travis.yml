@@ -40,6 +40,8 @@ matrix:
         - php: "7.4snapshot"
 
 before_script:
+  # Install .mo compilation dependencies
+  - apt-get install gettext
   # Speed up build time by disabling Xdebug when its not needed.
   - phpenv config-rm xdebug.ini || echo 'No xdebug config.'
   # Install CodeSniffer and external standards for the CS checks.
@@ -58,6 +60,10 @@ script:
   # Validate the composer.json file.
   # @link https://getcomposer.org/doc/03-cli.md#validate
   - if [[ $TRAVIS_PHP_VERSION != "5.2" ]]; then composer validate --no-check-all; fi
+  # Delete all of the stale .mo files
+  - find ./languages -type f -name \*.mo -exec rm -rf {} \;
+  # Generate .mo files from .po files
+  - find ./languages -type f -name \*.po -exec sh -c 'msgfmt -o $1 $(basename "$1" .po).mo"' _ '{}' \;
 
 notifications:
   email: false
