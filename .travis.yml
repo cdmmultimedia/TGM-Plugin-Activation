@@ -63,7 +63,7 @@ script:
   # Delete all of the stale .mo files
   - find ./languages -type f -name \*.mo -exec rm -rf {} \;
   # Generate .mo files from .po files
-  - find ./languages -type f -name \*.po -exec sh -c 'msgfmt -o $1 $(basename "$1" .po).mo' _ '{}' \;
+  - find ./languages -type f -name \*.po -exec sh -c 'msgfmt -o ./languages/$1 ./languages/$(basename "$1" .po).mo' _ '{}' \;
 
 notifications:
   email: false
